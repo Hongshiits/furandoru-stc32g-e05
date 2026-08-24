@@ -1,0 +1,49 @@
+# Keil / C251 build products
+**/out_file/
+**/Objects/
+**/Listings/
+*.axf
+*.bin
+*.build_log.htm
+*.crf
+*.d
+*.dep
+*.hex
+*.htm
+*.iex
+*.lnp
+*.lst
+*.m51
+*.map
+*.o
+*.obj
+*.plg
+*.tra
+*.__i
+
+# Keil per-user state
+*.uvgui.*
+*.uvopt
+*.uvoptx
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Simulator output
+tools/e05_pwm_virtual_env/*.csv
+
+# Editor and OS noise
+.vscode/*.log
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Archives and local backups
+*.7z
+*.rar
+*.zip
+*.bak
+*~
