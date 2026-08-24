@@ -1,6 +1,6 @@
 # Furandoru STC32G E05
 
-基于逐飞科技 `STC32G144K246 100Pin` 开源库和 Coreboard `E05_pwm_demo` 整理的循迹车固件。仓库保留了 E05 的实际工程代码、它引用的完整 Coreboard 库，以及用于控制算法快速验证的 PC 端仿真工具。
+基于逐飞科技 `STC32G144K246 100Pin` 开源库和 Coreboard `E05_pwm_demo` 整理的 Furandoru 循迹车工程。仓库包含 E05 实际固件与修改后的 Coreboard 库、PC 端仿真、电路硬件安全导出，以及 SolidWorks/STEP/STL/DXF 等机械资料。
 
 ## 功能概览
 
@@ -10,10 +10,12 @@
 - 直线、弯道、十字和环岛等状态处理
 - 串口 Horn Shell 参数调试，以及仍处于实验状态的 EEPROM 参数读写
 - 双电机与虚拟导线循迹的纯 Python 仿真
+- 立创 EDA/Altium 工程、BOM/Gerber、二维板框与按修改时间归档的安全导出
+- SolidWorks 原生装配、可制造 STL/DXF/3MF 及带 GPL-3.0 许可证的轻量化车模快照
 
 > 这是竞赛/实验固件快照。首次上车前请核对引脚、电机方向、传感器量程和 PID 参数，并先架空车轮测试。
 
-> 本仓库不是逐飞科技官方仓库。当前整理版本应保持为私有仓库：工程内含 Keil/STC 文件和两个预编译 `.LIB`，这些第三方组件的公开再分发条款尚未在原目录中找到。详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+> 本仓库不是逐飞科技官方仓库，当前按维护者要求保持公开。部分 Keil/STC、预编译 `.LIB`、硬件和机械资产随源目录未附独立再分发条款；公开可见不等于统一获得 GPL 授权。详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
 
 ## 目录
 
@@ -26,11 +28,36 @@ firmware/
 └── libraries/      # E05 工程引用的逐飞 Coreboard 库（含本项目修改）
 tools/
 └── e05_pwm_virtual_env/  # PC 端控制算法与导线循迹仿真
+hardware/
+├── projects/             # EDA 安全导出与 MUX_EMF 源工程
+├── history/              # 按源修改时间整理的 EDA 历史版本
+├── manufacturing/        # BOM、Gerber 与投板资料
+├── libraries/            # 已审计的立创 EDA 元件库
+└── mechanical-interfaces/ # 二维板框与接口图
+mechanical/
+├── solidworks/           # 原生模型、装配与制造格式
+└── third-party/          # 保留上游许可证的第三方快照
 scripts/
-└── verify_project.py     # 工程相对路径与发布内容检查
+├── verify_project.py     # 固件工程相对路径检查
+└── verify_assets.py      # 资产哈希、禁入格式与秘密标记检查
 docs/
-└── UPSTREAM_AND_CHANGES.md
+├── UPSTREAM_AND_CHANGES.md
+├── ASSET_IMPORT_SUMMARY.md
+└── ASSET_IMPORT_MAP.csv  # 原路径、时间、哈希、重命名/去重/排除追踪
 ```
+
+## 克隆与 Git LFS
+
+CAD/EDA/3D 二进制使用 Git LFS。完整克隆前先安装 Git LFS：
+
+```powershell
+git lfs install
+git clone https://github.com/Hongshiits/furandoru-stc32g-e05.git
+cd furandoru-stc32g-e05
+git lfs pull
+```
+
+直接下载 GitHub 自动生成的源码 ZIP 时，LFS 文件可能只是指针；需要完整工程时应使用上述克隆方式。
 
 ## 构建固件
 
@@ -86,12 +113,19 @@ python tools/e05_pwm_virtual_env/e05_wire_graph_app.py
 
 ```powershell
 python scripts/verify_project.py
+python scripts/verify_assets.py
 ```
 
-脚本会验证 Keil 工程中的源文件和包含目录是否都能在仓库内解析，并检查常见生成物是否被误收录。
+第一个脚本验证 Keil 工程中的源文件和包含目录；第二个脚本核对 320 条资产导入记录、发布文件 SHA-256、禁入格式和常见秘密标记。
+
+## 硬件与 3D 资产规则
+
+硬件说明见 [`hardware/README.md`](hardware/README.md)，机械依赖与装配注意事项见 [`mechanical/README.md`](mechanical/README.md)。同名不同内容的独立文件使用 `__YYYYMMDD-HHMMSS` 后缀，字节相同的副本通常只保留一份；SolidWorks 装配体和依赖零件则保持原名同目录，避免破坏引用。唯一的跨上下文重复是 N30 主板支架 DXF：硬件接口目录保留一份，同时不破坏带许可证第三方快照的完整目录。
+
+公开审计发现原始 `.eprj/.eprj2` 是带本地用户凭据的 SQLite 数据库，因此没有发布；可用工程以 `.epro/.epro2` 安全导出为准。147.9 MB 扫描参考图、构建日志、Keil 许可证码、调试/锁文件和来源未确认的商品图也已排除。完整原因和原始时间均在 [`docs/ASSET_IMPORT_MAP.csv`](docs/ASSET_IMPORT_MAP.csv)。
 
 ## 来源与许可证
 
 本项目基于逐飞科技 STC32G144K 开源库，原文件版权声明均予以保留。整理基准、工作区修改范围和删减规则见 [`docs/UPSTREAM_AND_CHANGES.md`](docs/UPSTREAM_AND_CHANGES.md)。部分上游 C/汇编文件保留原始 GBK 或混合编码；整理过程没有批量转码，以免改变编译输入。
 
-逐飞来源文件继续遵循其文件头声明的 GPLv3 或后续版本，项目自有修改也拟按 GPL-3.0-or-later 发布。根目录 [LICENSE](LICENSE) 收录 GPLv3 全文。Keil、STC 和预编译库等第三方组件分别遵循其权利人的条款；在相关授权确认或组件替换完成前，请勿将整个仓库公开发布。
+逐飞固件来源文件继续遵循其文件头声明的 GPLv3 或后续版本，项目自有修改也拟按 GPL-3.0-or-later 发布。根目录 [LICENSE](LICENSE) 收录 GPLv3 全文；`mechanical/third-party/lightweight-car-chassis/` 另保留其上游许可证。Keil、STC、预编译库及许可未明确的硬件/机械资产仍分别遵循其权利人的条款，仓库公开状态不改变这些第三方权利。

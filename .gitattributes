@@ -1,5 +1,8 @@
 * text=auto
 
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
 *.c text
 *.h text
 *.A51 text
@@ -9,6 +12,35 @@
 *.py text eol=lf
 *.md text eol=lf
 *.txt text
+*.csv text eol=lf
 
 *.LIB binary
 *.lib binary
+
+# Preserve imported engineering assets byte-for-byte so manifest hashes stay
+# valid after clone. Markdown files within these trees remain normal text.
+hardware/** -text
+mechanical/** -text
+hardware/**/*.md text eol=lf
+mechanical/**/*.md text eol=lf
+
+# CAD / EDA / 3D binary sources use Git LFS from their first public commit.
+*.[Ee][Pp][Rr][Oo] filter=lfs diff=lfs merge=lfs -text
+*.[Ee][Pp][Rr][Oo]2 filter=lfs diff=lfs merge=lfs -text
+*.[Ee][Ll][Ii][Bb][Zz]2 filter=lfs diff=lfs merge=lfs -text
+*.[Pp][Cc][Bb][Ll][Ii][Bb] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Cc][Hh][Ll][Ii][Bb] filter=lfs diff=lfs merge=lfs -text
+*.[Dd][Ww][Gg] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Ll][Dd][Pp][Rr][Tt] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Ll][Dd][Aa][Ss][Mm] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Ll][Dd][Dd][Rr][Ww] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Tt][Ll] filter=lfs diff=lfs merge=lfs -text
+*.[Ss][Tt][Ee][Pp] filter=lfs diff=lfs merge=lfs -text
+*.3mf filter=lfs diff=lfs merge=lfs -text
+
+# Other deliberately versioned binary deliverables stay in ordinary Git.
+*.zip binary
+*.pdf binary
+*.xlsx binary
+*.docx binary
+*.dxf binary

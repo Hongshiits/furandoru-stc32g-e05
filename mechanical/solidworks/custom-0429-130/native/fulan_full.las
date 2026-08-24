@@ -1,0 +1,168 @@
+  0
+LAYERSTATEDICTIONARY
+  0
+LAYERSTATE
+  1
+fulan_full
+ 91
+2047
+301
+
+290
+0
+302
+禁止区
+  8
+标注
+ 90
+8
+ 62
+8
+370
+-3
+  6
+Continuous
+  2
+Color_8
+440
+0
+  8
+Defpoints
+ 90
+0
+ 62
+7
+370
+-3
+  6
+Continuous
+  2
+Color_7
+440
+0
+  8
+限高区
+ 90
+8
+ 62
+12
+370
+-3
+  6
+Continuous
+  2
+Color_12
+440
+0
+  8
+禁止区
+ 90
+8
+ 62
+1
+370
+-3
+  6
+Continuous
+  2
+Color_1
+440
+0
+  8
+功能孔
+ 90
+8
+ 62
+60
+370
+-3
+  6
+Continuous
+  2
+Color_60
+440
+0
+  8
+框
+ 90
+8
+ 62
+30
+370
+-3
+  6
+Continuous
+  2
+Color_30
+440
+0
+  8
+安装槽
+ 90
+8
+ 62
+40
+370
+-3
+  6
+Continuous
+  2
+Color_40
+440
+0
+  8
+孔
+ 90
+8
+ 62
+50
+370
+-3
+  6
+Continuous
+  2
+Color_50
+440
+0
+  8
+槽
+ 90
+8
+ 62
+180
+370
+-3
+  6
+Continuous
+  2
+Color_180
+440
+0
+  8
+FORMAT
+ 90
+8
+ 62
+4
+370
+-3
+  6
+Continuous
+  2
+Color_4
+440
+0
+  8
+0
+ 90
+8
+ 62
+7
+370
+-3
+  6
+Continuous
+  2
+Color_7
+440
+0

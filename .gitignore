@@ -41,9 +41,8 @@ tools/e05_pwm_virtual_env/*.csv
 Thumbs.db
 Desktop.ini
 
-# Archives and local backups
-*.7z
+# Local scratch/lock files. Curated archives and dated backups under
+# hardware/ are intentional release assets and are therefore not ignored.
 *.rar
-*.zip
-*.bak
 *~
+~$*
